@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Siriwanth Kumar K — Graduate Structural Engineer</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap');
+
+  :root {
+    --ink: #1a1a2e;
+    --steel: #2d4a6e;
+    --concrete: #8fa3b8;
+    --beam: #c8872b;
+    --beam-light: #e8a84a;
+    --mist: #f0f4f8;
+    --white: #ffffff;
+    --section-pad: clamp(64px, 8vw, 120px);
+    --radius: 4px;
+    --card-radius: 8px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  a { text-decoration: none; }
+
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--ink);
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 clamp(24px, 5vw, 72px);
+    height: 64px;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(45,74,110,0.1);
+    transition: box-shadow 0.3s;
+  }
+  nav.scrolled { box-shadow: 0 4px 24px rgba(26,26,46,0.08); }
+
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem;
+    color: var(--steel);
+    letter-spacing: -0.02em;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--beam); }
+
+  .nav-links {
+    display: flex; gap: 2rem; list-style: none;
+  }
+  .nav-links a {
+    font-size: 0.82rem; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--steel); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--beam); }
+
+  .nav-toggle {
+    display: none; background: none; border: none;
+    cursor: pointer; padding: 4px; color: var(--steel);
+  }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 100px clamp(24px, 5vw, 72px) var(--section-pad);
+    background: var(--ink);
+    position: relative; overflow: hidden;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 48px;
+    align-items: end;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* Background structural grid lines */
+  #hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(200,135,43,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(200,135,43,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  /* Accent beam element */
+  .hero-beam {
+    position: absolute; top: 0; right: clamp(80px, 18vw, 220px);
+    width: 3px; height: 60%;
+    background: linear-gradient(to bottom, var(--beam), transparent);
+    opacity: 0.5;
+  }
+  .hero-beam::after {
+    content: '';
+    position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--beam); opacity: 0.8;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--beam);
+    margin-bottom: 20px;
+    opacity: 0; animation: fadeUp 0.7s 0.1s forwards;
+  }
+
+  .hero-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(3rem, 7vw, 6rem);
+    line-height: 1.0;
+    color: var(--white);
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+    opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
+  }
+  .hero-name em {
+    font-style: italic; color: var(--beam);
+  }
+
+  .hero-tagline {
+    font-size: clamp(1rem, 1.8vw, 1.2rem); font-weight: 300;
+    color: var(--concrete); max-width: 580px; line-height: 1.7;
+    opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
+  }
+
+  .hero-stats {
+    display: flex; flex-direction: column; gap: 28px;
+    opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+    padding-bottom: 8px;
+  }
+  .stat {
+    text-align: right;
+    border-right: 2px solid var(--beam);
+    padding-right: 16px;
+  }
+  .stat-number {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.2rem; color: var(--white); line-height: 1;
+    display: block;
+  }
+  .stat-label {
+    font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--concrete);
+  }
+
+  .hero-cta {
+    margin-top: 36px;
+    opacity: 0; animation: fadeUp 0.7s 0.65s forwards;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 28px;
+    background: var(--beam); color: var(--white);
+    font-size: 0.82rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; text-decoration: none;
+    border: none; cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .btn:hover { background: var(--beam-light); transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent; border: 1.5px solid rgba(255,255,255,0.3);
+    color: var(--white); margin-left: 12px;
+  }
+  .btn-outline:hover { background: rgba(255,255,255,0.08); border-color: var(--beam); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SECTION COMMON ── */
+  section { padding: var(--section-pad) clamp(24px, 5vw, 72px); }
+
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+
+  .section-label {
+    font-size: 0.72rem; font-weight: 500; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--beam);
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::after {
+    content: ''; flex: 1; max-width: 48px; height: 1.5px;
+    background: var(--beam); display: block;
+  }
+
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--steel); letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: clamp(36px, 5vw, 64px);
+  }
+
+  /* ── ABOUT ── */
+  #about { background: var(--mist); }
+
+  .about-grid {
+    display: grid; grid-template-columns: 3fr 2fr; gap: 64px;
+    align-items: start;
+  }
+
+  .about-text p {
+    font-size: 1.05rem; font-weight: 300; color: #3a4a5c;
+    line-height: 1.8; margin-bottom: 20px;
+  }
+  .about-text p:last-child { margin-bottom: 0; }
+
+  .about-pills {
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .pill {
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px 20px;
+    background: var(--white);
+    border-left: 3px solid var(--beam);
+    box-shadow: 0 2px 12px rgba(26,26,46,0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .pill:hover { transform: translateX(4px); box-shadow: 0 4px 20px rgba(26,26,46,0.1); }
+  .pill-icon { font-size: 1.3rem; }
+  .pill-text { font-size: 0.88rem; font-weight: 500; color: var(--steel); }
+
+  /* ── SKILLS ── */
+  #skills { background: var(--white); }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+  .skill-category {
+    background: var(--mist);
+    padding: 28px;
+    border-top: 3px solid var(--steel);
+    transition: border-color 0.2s;
+  }
+  .skill-category:hover { border-color: var(--beam); }
+  .skill-cat-title {
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--steel);
+    margin-bottom: 16px;
+  }
+  .skill-tags {
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .tag {
+    font-size: 0.8rem; font-weight: 400;
+    padding: 5px 12px;
+    background: var(--white);
+    color: var(--steel);
+    border: 1px solid rgba(45,74,110,0.15);
+    border-radius: 2px;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .tag:hover {
+    background: var(--steel); color: var(--white);
+    border-color: var(--steel);
+  }
+
+  /* ── EXPERIENCE ── */
+  #experience { background: var(--mist); }
+
+  .timeline {
+    position: relative;
+    padding-left: 28px;
+  }
+  .timeline::before {
+    content: ''; position: absolute; left: 0; top: 8px;
+    width: 2px; bottom: 8px;
+    background: linear-gradient(to bottom, var(--beam), var(--concrete));
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 48px;
+    padding-left: 36px;
+  }
+  .timeline-item:last-child { margin-bottom: 0; }
+
+  .timeline-dot {
+    position: absolute; left: -34px; top: 6px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--beam);
+    border: 3px solid var(--mist);
+    box-shadow: 0 0 0 2px var(--beam);
+    transition: transform 0.2s;
+  }
+  .timeline-item:hover .timeline-dot { transform: scale(1.3); }
+
+  .timeline-card {
+    background: var(--white);
+    padding: 28px 32px;
+    box-shadow: 0 2px 16px rgba(26,26,46,0.06);
+    border-radius: var(--card-radius);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .timeline-card:hover {
+    box-shadow: 0 8px 32px rgba(26,26,46,0.12);
+    transform: translateY(-2px);
+  }
+
+  .exp-role {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.25rem; color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .exp-org {
+    font-size: 0.88rem; font-weight: 500; color: var(--beam);
+    margin-bottom: 4px;
+  }
+  .exp-date {
+    font-size: 0.75rem; letter-spacing: 0.1em; color: var(--concrete);
+    text-transform: uppercase; margin-bottom: 16px;
+  }
+  .exp-bullets {
+    list-style: none; padding: 0;
+  }
+  .exp-bullets li {
+    font-size: 0.9rem; color: #3a4a5c; font-weight: 300;
+    padding: 6px 0 6px 18px; position: relative;
+    line-height: 1.6;
+    border-bottom: 1px solid rgba(143,163,184,0.15);
+  }
+  .exp-bullets li:last-child { border-bottom: none; }
+  .exp-bullets li::before {
+    content: '·'; position: absolute; left: 0;
+    color: var(--beam); font-size: 1rem; line-height: 1.6;
+  }
+
+  /* ── EDUCATION ── */
+  #education { background: var(--ink); }
+  #education .section-title { color: var(--white); }
+  #education .section-label { color: var(--beam-light); }
+  #education .section-label::after { background: var(--beam-light); }
+
+  .edu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 24px;
+  }
+  .edu-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 32px;
+    border-radius: var(--card-radius);
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .edu-card:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(200,135,43,0.4);
+  }
+  .edu-degree {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem; color: var(--white); margin-bottom: 6px;
+  }
+  .edu-inst {
+    font-size: 0.9rem; font-weight: 500; color: var(--beam);
+    margin-bottom: 4px;
+  }
+  .edu-date {
+    font-size: 0.75rem; letter-spacing: 0.1em; color: var(--concrete);
+    text-transform: uppercase; margin-bottom: 16px;
+  }
+  .edu-modules {
+    font-size: 0.82rem; font-weight: 300; color: rgba(255,255,255,0.55);
+    line-height: 1.7;
+  }
+  .edu-modules strong {
+    color: rgba(255,255,255,0.75); font-weight: 500;
+    display: block; margin-bottom: 6px;
+    font-size: 0.76rem; letter-spacing: 0.08em; text-transform: uppercase;
+  }
+
+  /* ── DISSERTATION / PROJECT ── */
+  #projects { background: var(--white); }
+
+  .project-card {
+    background: var(--mist);
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 32px; align-items: start;
+    padding: 40px;
+    border-left: 4px solid var(--beam);
+    border-radius: var(--card-radius);
+  }
+
+  .project-tag {
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--beam);
+    margin-bottom: 10px;
+  }
+  .project-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.5rem; color: var(--ink); line-height: 1.3;
+    margin-bottom: 16px;
+  }
+  .project-desc {
+    font-size: 0.92rem; font-weight: 300; color: #3a4a5c;
+    line-height: 1.8; max-width: 640px;
+  }
+  .project-tech {
+    margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .tech-chip {
+    font-size: 0.75rem; font-weight: 500;
+    padding: 4px 12px;
+    background: var(--white); color: var(--steel);
+    border: 1px solid rgba(45,74,110,0.2);
+    border-radius: 20px;
+  }
+
+  .project-aside {
+    display: flex; flex-direction: column; gap: 16px; min-width: 160px;
+  }
+  .project-metric {
+    text-align: center;
+    padding: 20px 16px;
+    background: var(--white);
+    border-top: 2px solid var(--beam);
+    box-shadow: 0 2px 12px rgba(26,26,46,0.05);
+  }
+  .project-metric-val {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem; color: var(--steel); display: block;
+    line-height: 1;
+  }
+  .project-metric-label {
+    font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--concrete); margin-top: 4px; display: block;
+  }
+
+  /* ── PUBLICATIONS ── */
+  #publications { background: var(--mist); }
+
+  .pub-list { display: flex; flex-direction: column; gap: 20px; }
+  .pub-card {
+    background: var(--white); padding: 24px 28px;
+    border-radius: var(--card-radius);
+    display: flex; align-items: flex-start; gap: 20px;
+    box-shadow: 0 2px 12px rgba(26,26,46,0.05);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .pub-card:hover { box-shadow: 0 6px 24px rgba(26,26,46,0.1); transform: translateY(-2px); }
+  .pub-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem; color: rgba(143,163,184,0.4);
+    line-height: 1; min-width: 40px;
+  }
+  .pub-title {
+    font-size: 0.95rem; font-weight: 500; color: var(--ink);
+    margin-bottom: 6px; line-height: 1.5;
+  }
+  .pub-meta {
+    font-size: 0.8rem; color: var(--concrete); font-weight: 300;
+  }
+  .pub-doi {
+    display: inline-block; margin-top: 8px;
+    font-size: 0.78rem; color: var(--beam);
+    text-decoration: none; font-weight: 500;
+  }
+  .pub-doi:hover { text-decoration: none; }
+
+  /* ── CONTACT ── */
+  #contact {
+    background: var(--steel);
+    padding: var(--section-pad) clamp(24px, 5vw, 72px);
+  }
+  #contact .section-title { color: var(--white); }
+  #contact .section-label { color: var(--beam-light); }
+  #contact .section-label::after { background: var(--beam-light); }
+
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+    align-items: start;
+  }
+  .contact-intro {
+    font-size: 1.05rem; font-weight: 300; color: rgba(255,255,255,0.7);
+    line-height: 1.8;
+  }
+
+  .contact-links {
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .contact-link {
+    display: flex; align-items: center; gap: 16px;
+    padding: 18px 24px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--card-radius);
+    text-decoration: none; color: var(--white);
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  }
+  .contact-link:hover {
+    background: rgba(200,135,43,0.2); border-color: var(--beam);
+    transform: translateX(4px);
+  }
+  .contact-link-icon {
+    font-size: 1.3rem; width: 28px; text-align: center;
+  }
+  .contact-link-text { font-size: 0.92rem; font-weight: 400; }
+  .contact-link-sub {
+    font-size: 0.75rem; color: rgba(255,255,255,0.45); display: block;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink); text-align: center;
+    padding: 24px clamp(24px, 5vw, 72px);
+    font-size: 0.78rem; color: var(--concrete); font-weight: 300;
+  }
+
+  /* ── FADE-IN ON SCROLL ── */
+  .reveal {
+    opacity: 0; transform: translateY(32px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .nav-links { display: none; flex-direction: column; }
+    .nav-links.open {
+      display: flex; position: fixed; top: 64px; left: 0; right: 0;
+      background: var(--white); padding: 20px 24px;
+      border-bottom: 1px solid rgba(45,74,110,0.1);
+      box-shadow: 0 8px 24px rgba(26,26,46,0.08);
+      gap: 1.2rem;
+    }
+    .nav-toggle { display: block; }
+
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-stats { flex-direction: row; justify-content: flex-start; }
+    .stat { text-align: left; border-right: none; border-left: 2px solid var(--beam); padding-left: 16px; padding-right: 0; }
+
+    .about-grid { grid-template-columns: 1fr; gap: 32px; }
+    .contact-grid { grid-template-columns: 1fr; gap: 32px; }
+    .project-card { grid-template-columns: 1fr; }
+    .project-aside { flex-direction: row; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-stats { flex-wrap: wrap; gap: 16px; }
+    .edu-grid { grid-template-columns: 1fr; }
+    .project-aside { flex-wrap: wrap; }
+    .btn-outline { margin-left: 0; margin-top: 10px; display: inline-flex; }
+    .hero-cta { display: flex; flex-direction: column; gap: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">S<span>.</span>Kumar</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#projects">Research</a></li>
+    <li><a href="#publications">Publications</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="3" y1="6" x2="19" y2="6"/>
+      <line x1="3" y1="11" x2="19" y2="11"/>
+      <line x1="3" y1="16" x2="19" y2="16"/>
+    </svg>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-beam"></div>
+  <div class="hero-grid">
+    <div>
+      <p class="hero-eyebrow">Graduate Structural Engineer · MSc Sheffield</p>
+      <h1 class="hero-name">Siriwanth<br><em>Kumar K</em></h1>
+      <p class="hero-tagline">Bridging rigorous academic training in structural dynamics and earthquake-resistant design with 5+ years of real-world project delivery. Committed to building structures that are safe, efficient, and sustainable.</p>
+      <div class="hero-cta">
+        <a href="#contact" class="btn">Get in Touch</a>
+        <a href="#experience" class="btn btn-outline">View Experience</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-number">5+</span>
+        <span class="stat-label">Years of experience</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">3</span>
+        <span class="stat-label">Gov. schemes delivered</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">2</span>
+        <span class="stat-label">Peer-reviewed papers</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner reveal">
+    <p class="section-label">About Me</p>
+    <h2 class="section-title">Engineer by training,<br>builder by nature</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I'm a graduate structural engineer with an MSc from the University of Sheffield, where my specialist focus spans structural dynamics, earthquake-resistant design, advanced concrete for net-zero, and sustainable steel and hybrid structures. My academic work is backed by a novel Python-based optimisation framework and peer-reviewed research.</p>
+        <p>Before my MSc, I spent over five years in end-to-end civil and structural project delivery in India — first as a Research Associate at the Indian Institute of Science, leading geophysical investigation for a major steel plant, then managing three government-regulated water supply infrastructure schemes from design coordination through to zero-deficiency handover.</p>
+        <p>I thrive in close-knit, forward-thinking consultancies where engineering rigour meets genuine collaboration. I'm actively working towards Chartered status with IStructE/ICE, and I hold an unrestricted right to work in the United Kingdom.</p>
+      </div>
+      <div class="about-pills">
+        <div class="pill"><span class="pill-icon">🏗️</span><span class="pill-text">Full lifecycle project delivery</span></div>
+        <div class="pill"><span class="pill-icon">🌍</span><span class="pill-text">Earthquake-resistant design</span></div>
+        <div class="pill"><span class="pill-icon">♻️</span><span class="pill-text">Net-zero structural design</span></div>
+        <div class="pill"><span class="pill-icon">🔬</span><span class="pill-text">Peer-reviewed researcher</span></div>
+        <div class="pill"><span class="pill-icon">🇬🇧</span><span class="pill-text">UK right to work · Sheffield</span></div>
+        <div class="pill"><span class="pill-icon">📐</span><span class="pill-text">IStructE/ICE Chartership in progress</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-inner reveal">
+    <p class="section-label">Technical Skills</p>
+    <h2 class="section-title">Tools &amp; competencies</h2>
+    <div class="skills-grid">
+      <div class="skill-category">
+        <p class="skill-cat-title">Structural Analysis</p>
+        <div class="skill-tags">
+          <span class="tag">ETABS</span>
+          <span class="tag">STAAD Pro</span>
+          <span class="tag">ANSYS</span>
+          <span class="tag">SAP2000</span>
+          <span class="tag">FEA</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <p class="skill-cat-title">Computational</p>
+        <div class="skill-tags">
+          <span class="tag">Python</span>
+          <span class="tag">NumPy</span>
+          <span class="tag">SciPy</span>
+          <span class="tag">MOSEK</span>
+          <span class="tag">Topology Optimisation</span>
+          <span class="tag">Fail-Safe Optimisation</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <p class="skill-cat-title">Design &amp; CAD</p>
+        <div class="skill-tags">
+          <span class="tag">AutoCAD</span>
+          <span class="tag">Revit</span>
+          <span class="tag">Civil 3D</span>
+          <span class="tag">Structural Calculations</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <p class="skill-cat-title">Design Standards</p>
+        <div class="skill-tags">
+          <span class="tag">UK Eurocodes</span>
+          <span class="tag">RC Design</span>
+          <span class="tag">Steel Design</span>
+          <span class="tag">Masonry</span>
+          <span class="tag">Timber</span>
+          <span class="tag">Hybrid Structures</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <p class="skill-cat-title">Sustainability</p>
+        <div class="skill-tags">
+          <span class="tag">Net-Zero Concrete</span>
+          <span class="tag">Sustainable Steel</span>
+          <span class="tag">Embodied Carbon</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <p class="skill-cat-title">Geotechnical</p>
+        <div class="skill-tags">
+          <span class="tag">Foundation Design</span>
+          <span class="tag">Soil Characterisation</span>
+          <span class="tag">GPR</span>
+          <span class="tag">Site Investigation</span>
+          <span class="tag">Seismic Micro-Zonation</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <p class="skill-cat-title">Project Management</p>
+        <div class="skill-tags">
+          <span class="tag">Full Lifecycle Delivery</span>
+          <span class="tag">Client Liaison</span>
+          <span class="tag">Risk Management</span>
+          <span class="tag">H&amp;S Compliance</span>
+          <span class="tag">CDM</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <p class="skill-cat-title">Technical Reporting</p>
+        <div class="skill-tags">
+          <span class="tag">Calculation Packs</span>
+          <span class="tag">Design Reports</span>
+          <span class="tag">Client Briefings</span>
+          <span class="tag">Stakeholder Comms</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-inner">
+    <p class="section-label reveal">Experience</p>
+    <h2 class="section-title reveal">Career timeline</h2>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <p class="exp-role">Project Manager — Water Supply Infrastructure</p>
+          <p class="exp-org">Akhil Infra Projects Pvt Ltd · India</p>
+          <p class="exp-date">Jan 2022 – Mar 2024</p>
+          <ul class="exp-bullets">
+            <li>Managed three government-regulated civil engineering schemes through the full project lifecycle — design coordination, procurement, construction supervision, QA, and client handover — achieving zero deficiencies across all government site inspections.</li>
+            <li>Led client communication, producing weekly technical reports and stakeholder briefings that translated complex structural data into clear, accessible deliverables.</li>
+            <li>Drove resource and procurement efficiencies reducing project overheads by approximately 12%, reinvested directly into programme acceleration.</li>
+            <li>Coordinated structural design, construction, and QA teams simultaneously; managed risk registers, H&amp;S compliance, and CDM-equivalent regulatory requirements.</li>
+            <li>Conducted site feasibility assessments, structural condition surveys, and site visits, applying engineering judgement to solve real construction challenges.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <p class="exp-role">Research Associate — Geophysical &amp; Structural Investigation</p>
+          <p class="exp-org">Indian Institute of Science &amp; Research Centre · India</p>
+          <p class="exp-date">Sep 2019 – Dec 2021</p>
+          <ul class="exp-bullets">
+            <li>Led subsurface site characterisation for a major steel plant, integrating geophysical datasets to inform structural foundation design.</li>
+            <li>Processed seismic micro-zonation datasets for the Ministry of Earth Sciences, producing high-quality technical outputs with zero revision requests from clients.</li>
+            <li>Co-authored 2 peer-reviewed publications on structural retrofitting and subsurface investigation methodology.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <p class="exp-role">Structural Engineering Intern</p>
+          <p class="exp-org">E-Construct Design &amp; Build Pvt Ltd · India</p>
+          <p class="exp-date">Jan 2018 – Aug 2018</p>
+          <ul class="exp-bullets">
+            <li>Completed full structural analysis of a G+5 residential building in STAAD Pro and ETABS, calculating live, dead, and wind loads to design standards.</li>
+            <li>Collaborated with architects and senior engineers on design-and-build projects; gained core structural design skills and understanding of how engineering decisions translate into construction outcomes.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-dot" style="background:var(--concrete); box-shadow: 0 0 0 2px var(--concrete);"></div>
+        <div class="timeline-card" style="border-left: 2px solid rgba(143,163,184,0.3);">
+          <p class="exp-role">Owner-Builder — Full Residential New Build</p>
+          <p class="exp-org">Self-directed · India</p>
+          <p class="exp-date">2022 – 2023</p>
+          <ul class="exp-bullets">
+            <li>Personally managed full residential construction from ground up: structural design, cost control, contractor procurement, trade sequencing, site supervision, and quality inspection through to completion.</li>
+            <li>Gained practical experience managing building professionals and making independent engineering and cost decisions across the whole lifecycle.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-inner reveal">
+    <p class="section-label">Education</p>
+    <h2 class="section-title">Academic background</h2>
+    <div class="edu-grid">
+      <div class="edu-card">
+        <p class="edu-degree">MSc Structural Engineering</p>
+        <p class="edu-inst">University of Sheffield · Sheffield, UK</p>
+        <p class="edu-date">2024 – 2026</p>
+        <div class="edu-modules">
+          <strong>Key Modules</strong>
+          Structural Dynamics &amp; Earthquake Engineering · Earthquake Resistant Design &amp; Strengthening · Advanced Concrete Design for Net-Zero · Sustainable Steel &amp; Hybrid Structures · Computational Structural Analysis · Managing Design &amp; Construction
+        </div>
+      </div>
+      <div class="edu-card">
+        <p class="edu-degree">BE Civil Engineering</p>
+        <p class="edu-inst">RNS Institute of Technology · Bangalore, India</p>
+        <p class="edu-date">2015 – 2019</p>
+        <div class="edu-modules">
+          <strong>Foundation Degree</strong>
+          Four-year undergraduate programme in Civil Engineering providing core training in structural analysis, geotechnics, construction management, and engineering mathematics.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS / DISSERTATION -->
+<section id="projects">
+  <div class="section-inner reveal">
+    <p class="section-label">Research</p>
+    <h2 class="section-title">MSc Dissertation</h2>
+    <div class="project-card">
+      <div>
+        <p class="project-tag">MSc Research · Supervised by Dr Helen Fairclough · University of Sheffield</p>
+        <h3 class="project-title">Addressing the Paradox of Robust and Material-Efficient Design</h3>
+        <p class="project-desc">Investigated the fundamental tension between structural robustness and material efficiency in topology-optimised truss systems. Implemented a Python-based adaptive fail-safe optimisation framework to design lightweight steel trusses capable of surviving localised member failure without progressive collapse. Verified results using SAP2000 elastic analysis and developed the Residual Stiffness Index (RSI) as a novel robustness metric. Research directly addresses the challenge of meeting net-zero ambitions while maintaining structural safety, with practical implications for residential and commercial design.</p>
+        <div class="project-tech">
+          <span class="tech-chip">Python</span>
+          <span class="tech-chip">NumPy</span>
+          <span class="tech-chip">SciPy</span>
+          <span class="tech-chip">MOSEK Solver</span>
+          <span class="tech-chip">SAP2000</span>
+          <span class="tech-chip">Topology Optimisation</span>
+          <span class="tech-chip">Fail-Safe Design</span>
+          <span class="tech-chip">Net-Zero Structures</span>
+        </div>
+      </div>
+      <div class="project-aside">
+        <div class="project-metric">
+          <span class="project-metric-val">RSI</span>
+          <span class="project-metric-label">Novel robustness metric</span>
+        </div>
+        <div class="project-metric">
+          <span class="project-metric-val">FEA</span>
+          <span class="project-metric-label">SAP2000 verification</span>
+        </div>
+        <div class="project-metric">
+          <span class="project-metric-val">Net-0</span>
+          <span class="project-metric-label">Design ambition</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section id="publications">
+  <div class="section-inner reveal">
+    <p class="section-label">Publications</p>
+    <h2 class="section-title">Peer-reviewed research</h2>
+    <div class="pub-list">
+      <div class="pub-card">
+        <span class="pub-num">01</span>
+        <div>
+          <p class="pub-title">Effective Use of SPT: Hammer Energy Measurement and Integrated Subsurface Investigation</p>
+          <p class="pub-meta">Geotechnical / Subsurface Investigation</p>
+          <a href="https://doi.org/10.1007/s40098-022-00609-z" target="_blank" class="pub-doi">DOI: 10.1007/s40098-022-00609-z →</a>
+        </div>
+      </div>
+      <div class="pub-card">
+        <span class="pub-num">02</span>
+        <div>
+          <p class="pub-title">Retrofitting of RC Beams Using Textile Reinforced Mortar</p>
+          <p class="pub-meta">Journal of Ceramics and Concrete Sciences · ISSN 2582-1938 · Vol. 5, Issue 1 (2020)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner reveal">
+    <p class="section-label">Contact</p>
+    <h2 class="section-title">Let's work together</h2>
+    <div class="contact-grid">
+      <div class="contact-intro">
+        <p>I'm actively seeking graduate structural engineering roles within forward-thinking consultancies in the UK. I bring a rare combination of real-world project delivery experience and advanced academic specialisation. Available immediately, willing to relocate.</p>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:siriwanth1997@gmail.com" class="contact-link">
+          <span class="contact-link-icon">✉️</span>
+          <div>
+            <span class="contact-link-text">siriwanth1997@gmail.com</span>
+            <span class="contact-link-sub">Email — preferred contact</span>
+          </div>
+        </a>
+        <a href="tel:+4407379243702" class="contact-link">
+          <span class="contact-link-icon">📞</span>
+          <div>
+            <span class="contact-link-text">+44 07379 243702</span>
+            <span class="contact-link-sub">Phone · Sheffield, UK</span>
+          </div>
+        </a>
+        <a href="https://doi.org/10.1007/s40098-022-00609-z" target="_blank" class="contact-link">
+          <span class="contact-link-icon">📄</span>
+          <div>
+            <span class="contact-link-text">View Publication</span>
+            <span class="contact-link-sub">Peer-reviewed research · Springer</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Siriwanth Kumar K · Graduate Structural Engineer · Sheffield, UK · Unrestricted right to work in the United Kingdom</p>
+</footer>
+
+<script>
+  // Sticky nav shadow
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // Mobile menu toggle
+  const navToggle = document.getElementById('navToggle');
+  const navLinks  = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => navLinks.classList.remove('open'));
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
